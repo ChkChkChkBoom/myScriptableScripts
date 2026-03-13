@@ -5,7 +5,7 @@
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
 const DEBUG=false
-let mode=(args.widgetParameter || "orientedAroace,1").toLowerCase()
+let mode=(args.widgetParameter || "aroace").toLowerCase()
 let g={
   "asexual":[["black gray white purple",false]],
   "pride":[["red orange yellow green blue purple",false]],
