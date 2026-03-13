@@ -9,8 +9,8 @@ const UPDATER_SCRIPT = "RepoManagerUpdater";
 
 const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents`;
 
-let fm = FileManager.local();
-let dir = fm.documentsDirectory();
+let fm = FileManager.iCloud();
+let dir = fm.documentsDirectory()
 
 async function getRepoFiles() {
   let req = new Request(API);
