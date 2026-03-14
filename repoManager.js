@@ -1,26 +1,34 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: purple; icon-glyph: magic;
+// RepoManager.js
+const VERSION="1.1.0"
 const OWNER = "ChkChkChkBoom";
 const REPO = "myScriptableScripts";
-const BRANCH = "main";
-const SELF_SCRIPT = "RepoManager";
-const UPDATER_SCRIPT = "RepoManagerUpdater";
-
 const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents`;
 
+const SELF_SCRIPT = "RepoManager.js";
+const UPDATER_SCRIPT = "RepoManagerUpdater";
+
 let fm = FileManager.iCloud();
-let dir = fm.documentsDirectory()
+let dir = fm.documentsDirectory();
+
+function localPath(name) {
+  return fm.joinPath(dir, name);
+}
+
+function exists(name) {
+  return fm.fileExists(localPath(name));
+}
 
 async function getRepoFiles() {
   let req = new Request(API);
-  let data = await req.loadJSON();
-  return data.filter(x => x.type === "file" && x.name.endsWith(".js"));
-}
+  req.headers = { "User-Agent": "Scriptable" };
 
-function localExists(name) {
-  let path = fm.joinPath(dir, name);
-  return fm.fileExists(path);
+  let data = await req.loadJSON();
+
+  if (!Array.isArray(data)) {
+    throw new Error("Invalid GitHub response");
+  }
+
+  return data.filter(x => x.type === "file" && x.name.endsWith(".js"));
 }
 
 async function download(file) {
@@ -28,78 +36,135 @@ async function download(file) {
   return await req.loadString();
 }
 
-async function write(file, code) {
-  let path = fm.joinPath(dir, file.name);
-  fm.writeString(path, code);
+function extractVersion(code) {
+
+  let match = code.match(/VERSION\s*=\s*["']([^"']+)["']/);
+
+  if (!match) return null;
+
+  return match[1];
+}
+
+function readLocalVersion(name) {
+
+  if (!exists(name)) return null;
+
+  let text = fm.readString(localPath(name));
+  return extractVersion(text);
+}
+
+async function readRemoteVersion(file) {
+
+  let code = await download(file);
+  return extractVersion(code);
+}
+
+function compareVersions(a, b) {
+
+  if (!a || !b) return 0;
+
+  let pa = a.split(".").map(Number);
+  let pb = b.split(".").map(Number);
+
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    let x = pa[i] || 0;
+    let y = pb[i] || 0;
+
+    if (x > y) return 1;
+    if (x < y) return -1;
+  }
+
+  return 0;
 }
 
 async function install(file) {
-  if (localExists(file.name)) return;
+
+  if (exists(file.name)) return;
+
   let code = await download(file);
-  await write(file, code);
+  fm.writeString(localPath(file.name), code);
 }
 
 async function update(file) {
-  if (!localExists(file.name)) return;
+
+  if (!exists(file.name)) return;
+
   let code = await download(file);
-  await write(file, code);
+  fm.writeString(localPath(file.name), code);
 }
 
 async function updateOrInstall(file) {
+
   let code = await download(file);
-  await write(file, code);
+  fm.writeString(localPath(file.name), code);
 }
 
 async function updateAll(files) {
+
   for (let f of files) {
-    if (localExists(f.name)) await update(f);
+    if (f.name !== SELF_SCRIPT && exists(f.name)) {
+      await update(f);
+    }
   }
 }
 
 async function installAll(files) {
+
   for (let f of files) {
-    if (!localExists(f.name)) await install(f);
+    if (!exists(f.name)) {
+      await install(f);
+    }
   }
 }
 
 async function updateInstallAll(files) {
+
   for (let f of files) {
-    await updateOrInstall(f);
+    if (f.name !== SELF_SCRIPT) {
+      await updateOrInstall(f);
+    }
   }
 }
 
 function runUpdater(file) {
+
   let data = encodeURIComponent(JSON.stringify(file));
   Safari.open(`scriptable:///run?scriptName=${UPDATER_SCRIPT}&args=${data}`);
+}
+
+async function buildStatus(file) {
+
+  if (!exists(file.name)) return "Not Installed";
+
+  let localV = readLocalVersion(file.name);
+  let remoteV = await readRemoteVersion(file);
+
+  if (!localV || !remoteV) return "Installed";
+
+  let cmp = compareVersions(localV, remoteV);
+
+  if (cmp < 0) return "Update Available";
+  return "Up to Date";
 }
 
 async function showMenu(files) {
 
   let table = new UITable();
 
-  let controls = new UITableRow();
-  controls.addText("Update All");
-  controls.onSelect = async () => {
-    await updateAll(files);
-    Script.complete();
-  };
-  table.addRow(controls);
+  let row1 = new UITableRow();
+  row1.addText("Update All");
+  row1.onSelect = async () => { await updateAll(files); };
+  table.addRow(row1);
 
-  let installRow = new UITableRow();
-  installRow.addText("Install All");
-  installRow.onSelect = async () => {
-    await installAll(files);
-    Script.complete();
-  };
-  table.addRow(installRow);
+  let row2 = new UITableRow();
+  row2.addText("Install All");
+  row2.onSelect = async () => { await installAll(files); };
+  table.addRow(row2);
 
-  let bothRow = new UITableRow();
-  bothRow.addText("Update + Install");
-  bothRow.onSelect = async () => {
-    await updateInstallAll(files);
-    Script.complete();
-  };
-  table.addRow(bothRow);
+  let row3 = new UITableRow();
+  row3.addText("Update + Install");
+  row3.onSelect = async () => { await updateInstallAll(files); };
+  table.addRow(row3);
 
   let spacer = new UITableRow();
   spacer.addText("────────────");
@@ -107,8 +172,10 @@ async function showMenu(files) {
 
   for (let file of files) {
 
+    let status = await buildStatus(file);
+
     let row = new UITableRow();
-    row.addText(file.name);
+    row.addText(file.name, status);
 
     row.onSelect = async () => {
 
@@ -122,10 +189,12 @@ async function showMenu(files) {
       let r = await alert.present();
 
       if (r === 0) {
-        if (file.name === SELF_SCRIPT + ".js") {
+
+        if (file.name === SELF_SCRIPT) {
           runUpdater(file);
           return;
         }
+
         await update(file);
       }
 
@@ -141,5 +210,18 @@ async function showMenu(files) {
   await table.present();
 }
 
+async function shortcutMode(files) {
+
+  await updateAll(files);
+
+  let selfFile = files.find(f => f.name === SELF_SCRIPT);
+  if (selfFile) runUpdater(selfFile);
+}
+
 let files = await getRepoFiles();
-await showMenu(files);
+
+if (config.runsFromShortcut) {
+  await shortcutMode(files);
+} else {
+  await showMenu(files);
+}
