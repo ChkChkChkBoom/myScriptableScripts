@@ -1,7 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-blue; icon-glyph: magic;
-//Requires: AlertUtilModule.js bookmarked as AlertUtil
+//Requires: avenLib.js bookmarked as avenLib
 
 //===============================================================================//|
 //What we need:                                                                  //|
@@ -18,10 +18,10 @@
 //https://biddytarot.com/tarot-card-meanings/major-arcana/                       //|
 //===============================================================================//|
 let n=FileManager.iCloud()
-const ON_MY_DEVICE=n.bookmarkExists("AlertUtil")
+const ON_MY_DEVICE=n.bookmarkExists("avenLib")
 //the one import i want (for alerting the user)
 if (ON_MY_DEVICE){
-  var ALERTER=importModule(n.bookmarkedPath("AlertUtil"))
+  var ALERTER=importModule(n.bookmarkedPath("avenLib"))
   //.makeAlert
 }
 //all the variables I remembered about
