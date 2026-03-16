@@ -1,9 +1,8 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: cyan; icon-glyph: flag-checkered;
-//What this needs: flagBackgroundModule.js bookmarked as FBM
+//What this needs: flagBackgroundModule.js bookmarked as FBM, avenLib.js bookmarked as avenLib
+const VERSION="1.0.0"
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
+const avenLib=importModule(handler.bookmarkedPath("avenLib"))
 const DEBUG=false
 let mode=(args.widgetParameter || "aroace").toLowerCase()
 let g={
@@ -29,7 +28,7 @@ let g={
   "bisexual":[["magenta magenta magenta magenta purple purple purple blue blue blue blue",false]],
   "androgyne":[["magenta darkPurple blue",true],["gray gray gray purple purple purple purple gray pink pink pink pink gray gray gray",false]]
 }
-g["random"]=g[shuffle(Object.keys(g))[0]]
+g["random"]=g[avenLib.shuffle(Object.keys(g))[0]]
 function main(flag,subset=0){
   let sub
   if (subset==0){
@@ -92,13 +91,6 @@ if (false){
   let ab=new Color("#000000")
   log(Object.create(ab))
   trueCopy(new Color("#000000"))
-}
-function shuffle(l){
-  let out=[]
-  for (let i=l.length;i>0;i--){
-    out.push(l[Math.floor(Math.random()*l.length)])
-  }
-  return out
 }
 module.exports.bgmaker=(wid,flag,subset=0)=>trmain(wid,flag, subset)
 module.exports.gradMake=(flag,subset=0)=>main(flag, subset)
