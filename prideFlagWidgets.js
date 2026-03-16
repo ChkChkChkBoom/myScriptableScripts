@@ -1,5 +1,5 @@
 //What this needs: flagBackgroundModule.js bookmarked as FBM, avenLib.js bookmarked as avenLib
-const VERSION="1.0.0"
+const VERSION="1.0.1"
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
 const avenLib=importModule(handler.bookmarkedPath("avenLib"))
