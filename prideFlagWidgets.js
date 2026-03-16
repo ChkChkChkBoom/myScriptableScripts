@@ -1,8 +1,8 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: light-blue; icon-glyph: flag-checkered;
+// icon-color: light-blue; icon-glyph: flag-checkeredb;
 //What this needs: flagBackgroundModule.js bookmarked as FBM, avenLib.js bookmarked as avenLib
-const VERSION="1.0.1"
+const VERSION="1.0.2"
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
 const avenLib=importModule(handler.bookmarkedPath("avenLib"))
