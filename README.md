@@ -9,3 +9,8 @@ To use these scripts:
   <li>Run it and select install</li>
   <li>Check bookmarks.js for more info on setup</li>
 </ol>
+<h1>Plans for the future:</h1>
+absorbLib: Making uploads easier (will work on in a bit)
+???Lib: Data storage library (will deal with when I get to it)
+sonarLib: Communicating with other devices (long term)
+lucaLib: Security/Encryption/Sanitization library (this will take a bit)
