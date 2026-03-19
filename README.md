@@ -13,4 +13,4 @@ To use these scripts:
 absorbLib: Making uploads easier (will work on in a bit)<p></p>
 ???Lib: Data storage library (will deal with when I get to it)<p></p>
 sonarLib: Communicating with other devices (long term)<p></p>
-lucaLib: Security/Encryption/Sanitization library (this will take a bit)
+lucaLib: Security/Encryption/Sanitization library (this will take a bit)<p></p>
