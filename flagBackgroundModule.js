@@ -1,6 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: red; icon-glyph: flag;
+const VERSION = "1.0.0"
 function toGrad(colors,v){
   let z=1
   if (v){

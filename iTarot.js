@@ -18,9 +18,9 @@
 //https://biddytarot.com/tarot-card-meanings/major-arcana/                       //|
 //===============================================================================//|
 let n=FileManager.iCloud()
-const ON_MY_DEVICE=n.bookmarkExists("eddaLib")
+const ON_GOOD_DEVICE=(n.bookmarkExists("eddaLib"))
 if (ON_MY_DEVICE){
-  var ALERTER=importModule(n.bookmarkedPath("eddaLib"))
+  var eddaLib=importModule(n.bookmarkedPath("eddaLib"))
   //.makeAlert
 }
 //all the variables I remembered about
@@ -270,6 +270,6 @@ else{
 }
 for (const i of results){mes=[mes,"\n",read(i[2][1])].join("");}
 if (ON_MY_DEVICE){
-  let alert=ALERTER.makeAlert("iTarot",mes)
+  let alert=eddaLib.makeAlert("iTarot",mes)
   alert.present()
 }

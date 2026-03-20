@@ -2,7 +2,7 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: red; icon-glyph: eye-slash;
 //backend utils to make life easier
-const VERSION="1.0.1"
+const VERSION="1.1.2"
 function shuffle(l){
   let out = [...l]
   for (let i = 1; i < out.length; i++) {
@@ -13,4 +13,7 @@ function shuffle(l){
   }
   return out
 }
-module.exports.shuffle=((l)=>shuffle(l))
+function randint(n){
+  return Math.floor(Math.random()*n)
+}
+module.exports={shuffle,randint}
