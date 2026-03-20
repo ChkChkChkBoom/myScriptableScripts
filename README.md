@@ -10,7 +10,7 @@ To use these scripts:
   <li>Check bookmarks.js for more info on setup</li>
 </ol>
 <h1>Plans for the future:</h1>
-ACTUALLY COMMIT bookmark.js
+ACTUALLY COMMIT bookmark.js<p></p>
 absorbLib: Making uploads easier (will work on in a bit)<p></p>
 ???Lib: Data storage library (will deal with when I get to it)<p></p>
 sonarLib: Communicating with other devices (long term)<p></p>
