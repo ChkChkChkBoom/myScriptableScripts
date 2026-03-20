@@ -31,6 +31,7 @@ let g={
   "bisexual":[["magenta magenta magenta magenta purple purple purple blue blue blue blue",false]],
   "androgyne":[["magenta darkPurple blue",true],["gray gray gray purple purple purple purple gray pink pink pink pink gray gray gray",false]]
 }
+g["gay"]=g["pride"]
 g["random"]=g[avenLib.shuffle(Object.keys(g))[0]]
 function main(flag,subset=0){
   let sub
