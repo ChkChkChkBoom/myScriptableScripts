@@ -10,8 +10,11 @@ To use these scripts:
   <li>Check bookmarks.js for more info on setup</li>
 </ol>
 <h1>Plans for the future:</h1>
-ACTUALLY COMMIT bookmark.js<p></p>
 absorbLib: Making uploads easier (will work on in a bit)<p></p>
+<<<<<<< HEAD
+???Lib: Data storage library (will deal with when I get to it)<p></p>
+=======
 ???Lib: Data storage library (will deal with when I get to it, needs a name)<p></p>
 sonarLib: Communicating with other devices (cancelled indefinitely)<p></p>
+>>>>>>> 67ac97958262a7a9f1d3151d0450de36cb27842e
 lucaLib: Security/Encryption/Sanitization library (this will take a bit)<p></p>
