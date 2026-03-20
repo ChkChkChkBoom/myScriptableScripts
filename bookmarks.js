@@ -6,6 +6,7 @@ This is a guide for what to do after installing my scripts:
 3. Add the following ([Bookmark Name] - [Script Filename]):
     avenLib - avenLib.js
     eddaLib - eddaLib.js
+    adaptationLib - adaptationLib.js
     FBM - flagBackgroundModule.js
 Good job!
 This will be updated for other libraries when I feel like it.
