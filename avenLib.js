@@ -16,4 +16,11 @@ function shuffle(l){
 function randint(n){
   return Math.floor(Math.random()*n)
 }
-module.exports={shuffle,randint}
+function readFile(path,separator,handler=FileManager.iCloud()){
+  data=handler.readString(path)
+  if (separator){
+    return data.split(separator)
+  }
+  return data
+}
+module.exports={shuffle,randint,readFile}

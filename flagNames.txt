@@ -1,0 +1,12 @@
+asexual-ace
+aromantic-aro
+pride-gay
+transgender-trans
+nonbinary-nb,enby
+bisexual-bi
+pansexual-pan
+demigirl-dgirl
+demigender-dgender
+demiboy-dboy
+transfem-tfem
+transmasc-tmasc

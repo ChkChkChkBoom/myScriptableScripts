@@ -28,7 +28,7 @@ async function getRepoFiles() {
     throw new Error("Invalid GitHub response");
   }
 
-  return data.filter(x => x.type === "file" && x.name.endsWith(".js"));
+  return data.filter(x => x.type === "file" && (x.name.endsWith(".js")||x.name.endsWith(".txt")));
 }
 
 async function download(file) {

@@ -1,7 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: light-blue; icon-glyph: flag-checkeredb;
-//What this needs: flagBackgroundModule.js bookmarked as FBM, avenLib.js bookmarked as avenLib
+// icon-color: light-blue; icon-glyph: flag-checkered;
+//What this needs: flagBackgroundModule.js bookmarked as FBM (might put into another lib), avenLib.js bookmarked as avenLib
 const VERSION="1.0.2"
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
@@ -31,7 +31,14 @@ let g={
   "bisexual":[["magenta magenta magenta magenta purple purple purple blue blue blue blue",false]],
   "androgyne":[["magenta darkPurple blue",true],["gray gray gray purple purple purple purple gray pink pink pink pink gray gray gray",false]]
 }
-g["gay"]=g["pride"]
+avenLib.readFile(handler.joinPaths(handler.documentsPath(),"flagNames.txt"),"\n").forEach(x=>{
+  let s=x.split("-")
+  let name=s[0]
+  let aliases=s[1].split(",")
+  for (let alias of aliases){
+    g[name]=g[alias]
+  }
+})
 g["random"]=g[avenLib.shuffle(Object.keys(g))[0]]
 function main(flag,subset=0){
   let sub
