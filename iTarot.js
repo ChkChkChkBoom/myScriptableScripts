@@ -17,9 +17,10 @@
 //Not an endorsement but I only know of one online option:                       //|
 //https://biddytarot.com/tarot-card-meanings/major-arcana/                       //|
 //===============================================================================//|
+const VERSION="1.1.0"
 let n=FileManager.iCloud()
 const ON_GOOD_DEVICE=(n.bookmarkExists("eddaLib"))
-if (ON_MY_DEVICE){
+if (ON_GOOD_DEVICE){
   var eddaLib=importModule(n.bookmarkedPath("eddaLib"))
   //.makeAlert
 }
@@ -262,14 +263,14 @@ function read(item){
   log(`${NAMES[base]} (${INV_MAP[rest]})`)
   return `${NAMES[base]} (${INV_MAP[rest]})`
 }
-if (ON_MY_DEVICE){
+if (ON_GOOD_DEVICE){
   mes="Cards you selected:"
 }
 else{
   mes="Please report having seen this message, it means something is wrong with my code. Sorry!"
 }
 for (const i of results){mes=[mes,"\n",read(i[2][1])].join("");}
-if (ON_MY_DEVICE){
+if (ON_GOOD_DEVICE){
   let alert=eddaLib.makeAlert("iTarot",mes)
   alert.present()
 }
