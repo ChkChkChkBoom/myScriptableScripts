@@ -1,3 +1,6 @@
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: cyan; icon-glyph: dice;
 const VERSION = "1.0.0"
 function sanitize(data,blacklist) {
     let copy = JSON.parse(JSON.stringify(data))

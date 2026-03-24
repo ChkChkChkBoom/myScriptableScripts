@@ -1,4 +1,7 @@
-// RepoManager.js
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: green; icon-glyph: magic;
+// repoManager.js
 const VERSION="1.1.0"
 const OWNER = "ChkChkChkBoom";
 const REPO = "myScriptableScripts";

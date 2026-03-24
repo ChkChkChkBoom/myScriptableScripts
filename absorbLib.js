@@ -1,7 +1,10 @@
-const VERSION="1.0.0"
+// Variables used by Scriptable.
+// These must be at the very top of the file. Do not edit.
+// icon-color: green; icon-glyph: magic;
+const VERSION="1.1.0"
 const OWNER = "ChkChkChkBoom"
 const REPO = "myScriptableScripts"
-const lucaLib=importModule({()=>{return new FileManager.iCloud()}}().bookmarkedPath("lucaLib"))
+const lucaLib=importModule(FileManager.iCloud().bookmarkedPath("lucaLib"));
 if (!Keychain.contains("githubToken")) {
     throw new Error("GitHub token not found in Keychain, see bookmarks.js for instructions")
 }
