@@ -19,4 +19,4 @@ async function loadNames(){
         Keychain.set(name,a)
     }
 }
-loadNames()
+await loadNames()
