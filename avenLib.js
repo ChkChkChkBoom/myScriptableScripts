@@ -23,4 +23,4 @@ function readFile(path,separator,handler=FileManager.iCloud()){
   }
   return data
 }
-module.exports={shuffle,randint,readFile}
+module.exports={shuffle,randint,readFile,VERSION}

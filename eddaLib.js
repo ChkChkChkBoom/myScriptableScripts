@@ -25,4 +25,40 @@ function prompt(title,message,placeholder){
     }
   })
 }
-module.exports={makeAlert,makePrompt,prompt}
+function dictPrint(dictionary,name,first=true,lastness=[]){
+  let keys=Object.keys(dictionary)
+  let output=""
+  if (first){
+    output+=name+"\n"
+  }
+  for (let i=0;i<keys.length;i++){
+    let lasty=lastness.slice()
+    //console.log(i)
+    //Make the line before the value
+    if (lasty.length>0){
+      for (let j=0;j<lasty.length;j++){
+        if (lasty[j]==true){
+          output+="  "
+        } else {
+          output+="│ "
+        }
+      }
+    }
+    if (i==keys.length-1&&((typeof dictionary[i])!=typeof {"foo":"bar"})){
+      output+="└─"
+    } else {
+      output+="├─"
+    }
+    output+=keys[i]
+    if (typeof dictionary[keys[i]]=="object"){
+      //dict case
+      output+="\n"
+      lasty.push((i==Object.keys(dictionary).length-1))
+      output+=dictPrint(dictionary[keys[i]],keys[i],first=false,lasty)
+    } else {
+      output+=": "+dictionary[keys[i]]+"\n"
+    }
+  }
+  return output
+}
+module.exports={makeAlert,makePrompt,prompt,dictPrint,VERSION}

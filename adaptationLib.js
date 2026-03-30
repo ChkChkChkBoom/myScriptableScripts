@@ -105,5 +105,5 @@ class adaptiveVariableManager {
     }
 }
 module.exports = {
-    adaptiveVariable,adaptiveVariableManager
+    adaptiveVariable,adaptiveVariableManager,VERSION
 }

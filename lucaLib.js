@@ -22,4 +22,4 @@ function validate(data) {
         throw new Error("Refusing to upload possible sensitive data")
     }
 }
-module.exports={sanitize,validate}
+module.exports={sanitize,validate,VERSION}

@@ -70,4 +70,8 @@ async function main() {
     }
     log("All files uploaded")
 }
-main()
+if (config.runsInApp) {
+    main()
+} else {
+    module.exports={uploadFile,getRepoFiles,main,VERSION}
+}

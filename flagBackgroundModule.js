@@ -39,5 +39,4 @@ function strToList(str) {
     return Color[name]()
   })
 }
-module.exports.strToList= (r) => strToList(r)
-module.exports.toGrad= (r,v) => toGrad(r,v)
+module.exports={toGrad,strToList,VERSION}
