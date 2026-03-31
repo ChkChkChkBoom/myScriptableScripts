@@ -25,7 +25,7 @@ function prompt(title,message,placeholder){
     }
   })
 }
-function dictPrint(dictionary,name,first=true,lastness=[]){
+function dictPrintBase(dictionary,name,first=true,lastness=[]){
   let keys=Object.keys(dictionary)
   let output=""
   if (first){
@@ -54,11 +54,14 @@ function dictPrint(dictionary,name,first=true,lastness=[]){
       //dict case
       output+="\n"
       lasty.push((i==Object.keys(dictionary).length-1))
-      output+=dictPrint(dictionary[keys[i]],keys[i],first=false,lasty)
+      output+=dictPrintBase(dictionary[keys[i]],keys[i],first=false,lasty)
     } else {
       output+=": "+dictionary[keys[i]]+"\n"
     }
   }
   return output
+}
+function dictPrint(name){
+  return dictPrintBase(eval(name),name)
 }
 module.exports={makeAlert,makePrompt,prompt,dictPrint,VERSION}
