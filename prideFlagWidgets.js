@@ -36,7 +36,7 @@ avenLib.readFile(handler.joinPath(handler.documentsDirectory(),"flagNames.txt"),
   let name=s[0]
   let aliases=s[1].split(",")
   for (let alias of aliases){
-    g[name]=g[alias]
+    g[alias]=g[name]
   }
 })
 g["random"]=g[avenLib.shuffle(Object.keys(g))[0]]
