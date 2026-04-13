@@ -2,13 +2,16 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: light-blue; icon-glyph: flag-checkered;
 //What this needs: flagBackgroundModule.js bookmarked as FBM (might put into another lib), avenLib.js bookmarked as avenLib
-const VERSION="1.2.0"
+const VERSION="1.3.0"
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
 const avenLib=importModule(handler.bookmarkedPath("avenLib"))
-const DEBUG=false
-let mode=(args.widgetParameter || "aroace").toLowerCase()
-let g={
+let masterDebug=false
+let testFlag="asexual"
+let mainDebug=false||masterDebug
+let widgetDebug=false||masterDebug
+let mode=(args.widgetParameter || testFlag).toLowerCase()
+var g={
   "asexual":[["black gray white purple",false]],
   "pride":[["red orange yellow green blue purple",false]],
   "aroace":[["orange yellow white lightBlue blue",false]],
@@ -42,7 +45,10 @@ avenLib.readFile(handler.joinPath(handler.documentsDirectory(),"flagNames.txt"),
 g["random"]=g[avenLib.shuffle(Object.keys(g))[0]]
 function main(flag,subset=0){
   let sub
-  if (subset==0){
+  if (mainDebug){
+    log(flag)
+  }
+  if (!subset){
     sub=1
   }
   else{
@@ -51,18 +57,17 @@ function main(flag,subset=0){
   if (g[flag].length<=subset){
     sub=0
   }
-  if (DEBUG){
+  if (mainDebug){
     log("flag name: "+flag)
     log("subset: "+sub)
   }
   let f=g[flag][sub-1]
-  if (DEBUG){
+  if (mainDebug){
     log("f[0]: "+f[0])
-    log(flagMaker.strToList(f[0]))
     log("f[1]: "+f[1])
   }
   let out=flagMaker.toGrad(flagMaker.strToList(f[0]),f[1])
-  if(DEBUG){log(out)}
+  if(mainDebug){log(out)}
   return out
 }
 function trmain(mod,flag,subset){
@@ -103,11 +108,28 @@ if (false){
   log(Object.create(ab))
   trueCopy(new Color("#000000"))
 }
+function antiError(test,testArgs,fallback,fallbackArgs,debug=false){
+  let out
+  try {
+    out=test(...testArgs)
+  } catch (err) {
+    if ((typeof fallback)=='function'){
+      out=fallback(...fallbackArgs)
+    } else {
+      out=fallback
+    }
+  }
+  return out
+}
 module.exports.bgmaker=(wid,flag,subset=0)=>trmain(wid,flag, subset)
 module.exports.gradMake=(flag,subset=0)=>main(flag, subset)
 module.exports.flagTypes=Object.keys(g)
 module.exports.lookup=(flag)=>g[flag]
-if (Script.runsInWidget){
-  let a=main((args.widgetParameter.split(",")[0]),(parseInt(args.widgetParameter.split(",")[1])|0))
-  Script.setWidget(a)
+if (Script.runsInWidget||widgetDebug){
+  let a=main(antiError(eval,['args.widgetParameter.split(",")[0])'],testFlag,[]),antiError(eval,['parseInt(args.widgetParameter.split(",")[1])'],0,[]))
+  if (Script.runsInWidget){
+    Script.setWidget(a)
+  } else {
+    null
+  }
 }
