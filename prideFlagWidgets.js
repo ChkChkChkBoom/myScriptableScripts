@@ -2,15 +2,15 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: light-blue; icon-glyph: flag-checkered;
 //What this needs: flagBackgroundModule.js bookmarked as FBM (might put into another lib), avenLib.js bookmarked as avenLib
-const VERSION="1.3.0"
+const VERSION="1.2.0"
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
 const avenLib=importModule(handler.bookmarkedPath("avenLib"))
 let masterDebug=false
 let testFlag="asexual"
-let mainDebug=false||masterDebug
-let widgetDebug=false||masterDebug
-let mode=(args.widgetParameter || testFlag).toLowerCase()
+let mainDebug=true||masterDebug
+let widgetDebug=true||masterDebug
+let mode=(args.widgetParameter || "asexual").toLowerCase()
 var g={
   "asexual":[["black gray white purple",false]],
   "pride":[["red orange yellow green blue purple",false]],
