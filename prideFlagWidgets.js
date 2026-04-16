@@ -2,7 +2,7 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: light-blue; icon-glyph: flag-checkered;
 //What this needs: flagBackgroundModule.js bookmarked as FBM (might put into another lib), avenLib.js bookmarked as avenLib
-const VERSION="1.3.1"
+const VERSION="1.3.2"
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
 const avenLib=importModule(handler.bookmarkedPath("avenLib"))
@@ -36,13 +36,14 @@ var g={
 }
 avenLib.readFile(handler.joinPath(handler.documentsDirectory(),"flagNames.txt"),"\n").forEach(x=>{
   if (x[0]==="#"){
-    continue
-  }
-  let s=x.split("-")
-  let name=s[0]
-  let aliases=s[1].split(",")
-  for (let alias of aliases){
-    g[alias]=g[name]
+    //no
+  }else{
+    let s=x.split("-")
+    let name=s[0]
+    let aliases=s[1].split(",")
+    for (let alias of aliases){
+      g[alias]=g[name]
+    }
   }
 })
 g["random"]=g[avenLib.shuffle(Object.keys(g))[0]]
