@@ -2,7 +2,7 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: green; icon-glyph: book;
 /*
-VERSION = 1.1.0
+VERSION = "1.1.0"
 Second try, I forgot to commit the first one.
 This is a guide for what to do after installing my scripts:
 1. Go into settings in Scriptable
