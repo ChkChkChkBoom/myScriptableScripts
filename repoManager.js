@@ -2,7 +2,7 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: green; icon-glyph: magic;
 // repoManager.js
-const VERSION="1.1.0"
+const VERSION="1.1.1"
 const OWNER = "ChkChkChkBoom";
 const REPO = "myScriptableScripts";
 const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents`;
@@ -127,6 +127,7 @@ async function updateInstallAll(files) {
       await updateOrInstall(f);
     }
   }
+  runUpdater(download(SELF_SCRIPT))
 }
 
 function runUpdater(file) {
@@ -142,11 +143,12 @@ async function buildStatus(file) {
   let localV = readLocalVersion(file.name);
   let remoteV = await readRemoteVersion(file);
 
-  if (!localV || !remoteV) return "Installed";
-
+  if (!remoteV) return "Installed";
+  if (!localV) return "Update Available"
   let cmp = compareVersions(localV, remoteV);
 
   if (cmp < 0) return "Update Available";
+  if (cmp > 0) return "Causality Violation";
   return "Up to Date";
 }
 
