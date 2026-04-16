@@ -2,7 +2,7 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: light-blue; icon-glyph: flag-checkered;
 //What this needs: flagBackgroundModule.js bookmarked as FBM (might put into another lib), avenLib.js bookmarked as avenLib
-const VERSION="1.2.0"
+const VERSION="1.3.0"
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
 const avenLib=importModule(handler.bookmarkedPath("avenLib"))
@@ -70,20 +70,13 @@ function main(flag,subset=0){
   if(mainDebug){log(out)}
   return out
 }
-function trmain(mod,flag,subset){
-  let wid=trueCopy(mod)
+function trmain(mod,flag,subset=0){
+  let wid=JSON.parse(JSON.stringify(mod))
   wid.backgroundGradient=main(flag, subset)
   return wid
 }
 function trueCopy(n){
-  log(n)
-  let m=n.construct
-  log(m)
-  let k=Object.keys(n)
-  for (let i of k){
-    m[k]=n[k]
-  }
-  return m
+  return JSON.parse(JSON.stringify(n))
 }
 function side(a,b,c){
   if (((parseFloat(Device.systemVersion())>=15)&&(Device.name()=="iPad"&&(Device.isInLandscapeLeft()||Device.isInLandscapeRight())))){
@@ -123,8 +116,7 @@ function antiError(test,testArgs,fallback,fallbackArgs,debug=false){
 }
 module.exports.bgmaker=(wid,flag,subset=0)=>trmain(wid,flag, subset)
 module.exports.gradMake=(flag,subset=0)=>main(flag, subset)
-module.exports.flagTypes=Object.keys(g)
-module.exports.lookup=(flag)=>g[flag]
+module.exports.flagDict=g
 if (Script.runsInWidget||widgetDebug){
   let a=main(antiError(eval,['args.widgetParameter.split(",")[0])'],testFlag,[]),antiError(eval,['parseInt(args.widgetParameter.split(",")[1])'],0,[]))
   if (Script.runsInWidget){
