@@ -1,8 +1,8 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: deep-purple; icon-glyph: magic;
+// icon-color: green; icon-glyph: magic;
 let arg = args.queryParameters.args;
-let VERSION = "1.0.0"
+let VERSION = "1.0.1"
 if (!arg) {
   let a = new Alert();
   a.title = "No update info";
