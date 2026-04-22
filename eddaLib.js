@@ -73,7 +73,7 @@ function dictPrint(name) {
 function listPrintBase(list, name, first = true, lastness = [], seen = new Set()) {
   let output = ""
   if (seen.has(list)) {
-    return "[Circular]\n"
+    output+="[Circular]: "
   }
   seen.add(list)
   if (first) {

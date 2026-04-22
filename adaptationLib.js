@@ -52,6 +52,12 @@ class adaptiveVariableManager {
             return this.#variables[name].access();
         }
     }
+    getVariables(){
+        return this.#variables;
+    }
+    gVars(){
+        return this.getVariables();
+    }
     gVar(name){
         return this.getVariable(name);
     }
