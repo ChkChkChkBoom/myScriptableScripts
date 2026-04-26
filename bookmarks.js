@@ -14,7 +14,7 @@ This is a guide for what to do after installing my scripts:
     lucaLib - lucaLib.js
     FBM - flagBackgroundModule.js
     clipboards - any clipboard folder in the scriptable iCloud folder
-4. Run secrets.js (handles the Keychain system) and follow the instructions there.
+4. Run init.js, follow any instructions given
 Good job!
 This will be updated for other libraries when I feel like it.
 */
