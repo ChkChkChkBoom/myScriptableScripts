@@ -13,7 +13,7 @@ This is a guide for what to do after installing my scripts:
     eddaLib - eddaLib.js
     lucaLib - lucaLib.js
     FBM - flagBackgroundModule.js
-    clipboards - any clipboard folder in the scriptable iCloud
+    clipboards - any clipboard folder in the scriptable iCloud folder
 4. Run secrets.js (handles the Keychain system) and follow the instructions there.
 Good job!
 This will be updated for other libraries when I feel like it.
