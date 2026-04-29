@@ -32,10 +32,6 @@ function keyToString(key) {
 // ===================== DICT PRINT =====================
 function dictPrintBase(dictionary, name, first = true, lastness = [], seen = new Set()) {
   let output = ""
-  if (seen.has(dictionary)) {
-    return "[Circular]\n"
-  }
-  seen.add(dictionary)
   if (first) {
     output += name + "\n"
   }
@@ -49,6 +45,9 @@ function dictPrintBase(dictionary, name, first = true, lastness = [], seen = new
     // branch
     output += (i === keys.length - 1) ? "└─" : "├─"
     let key = keys[i]
+    if (seen.has(dictionary[key])) {
+      output += "[Circular]: "
+    }
     let keyName = keyToString(key)
     let value = dictionary[key]
     output += keyName
@@ -64,6 +63,7 @@ function dictPrintBase(dictionary, name, first = true, lastness = [], seen = new
       output += ": " + value + "\n"
     }
   }
+  seen.add(dictionary)
   return output
 }
 function dictPrint(name) {
@@ -73,7 +73,14 @@ function dictPrint(name) {
 function listPrintBase(list, name, first = true, lastness = [], seen = new Set()) {
   let output = ""
   if (seen.has(list)) {
-    output+="[Circular]: "
+    let lasty = lastness.slice()
+    // indentation
+    for (let j = 0; j < lasty.length; j++) {
+      output += lasty[j] ? "  " : "│ "
+    }
+    // branch
+    output += (i === list.length - 1) ? "└─" : "├─"
+    return output+"[Circular]\n"
   }
   seen.add(list)
   if (first) {
