@@ -23,9 +23,9 @@ function readFile(path,separator,handler=FileManager.iCloud()){
   }
   return data
 }
-function count(in){
+function count(inp){
   let li={}
-  let cl=in
+  let cl=inp
   let cvs=cl.split(",")
   for (const entry of cvs){
     li[entry]="0"
