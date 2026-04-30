@@ -17,13 +17,11 @@
 //Not an endorsement but I only know of one online option:                       //|
 //https://biddytarot.com/tarot-card-meanings/major-arcana/                       //|
 //===============================================================================//|
-const VERSION="1.1.0"
+const VERSION="1.2.0"
+const skillLib=importModule(n.bookmarkedPath("skillLib"))
 let n=FileManager.iCloud()
-const ON_GOOD_DEVICE=(n.bookmarkExists("eddaLib"))
-if (ON_GOOD_DEVICE){
-  var eddaLib=importModule(n.bookmarkedPath("eddaLib"))
-  //.makeAlert
-}
+const eddaLib=importModule(n.bookmarkedPath("eddaLib"))
+//.makeAlert
 //all the variables I remembered about
 let results=[]
 let tick=0
@@ -56,26 +54,6 @@ const NAMES={
 const INV_MAP={
   "+":"Upright",
   "-":"Inverted"
-}
-//yay, prototype editing!
-//return a copy of self
-String.prototype.reflect=function(){return (this.slice(0,-1)).concat(this.slice(-1))}
-//sdrawkcab ekaM
-String.prototype.toReverse=function(){return this.reflect().split('').reverse().join('')}
-//remove first instance of item
-Array.prototype.delete=function(item){return [...this.slice(0,this.indexOf(item))].concat(this.slice(this.indexOf(item)+1))}
-//remove all instances of item
-Array.prototype.erase=function(item){let i=this;while (i.includes(item)){i=i.delete(item)};return i}
-//remove item at index h
-Array.prototype.excise=function(h){let out=[];for (let i=0;i<this.length;i++){if (i!=h){out.push(this[i])}};return out}
-//shuffle a list
-Array.prototype.shuffle=function(){
-  let out=[...this];
-  for (let i=1;i<out.length;i++) {
-    let j = 0|Math.random()*(i+1);
-    [out[i],out[j]]=[out[j],out[i]];
-  }
-  return out;
 }
 //Functions:
 function pm(){
@@ -263,14 +241,8 @@ function read(item){
   log(`${NAMES[base]} (${INV_MAP[rest]})`)
   return `${NAMES[base]} (${INV_MAP[rest]})`
 }
-if (ON_GOOD_DEVICE){
-  mes="Cards you selected:"
-}
-else{
-  mes="Please report having seen this message, it means something is wrong with my code. Sorry!"
-}
+let mes=""
+mes="Cards you selected:"
 for (const i of results){mes=[mes,"\n",read(i[2][1])].join("");}
-if (ON_GOOD_DEVICE){
-  let alert=eddaLib.makeAlert("iTarot",mes)
-  alert.present()
-}
+let alert=eddaLib.makeAlert("iTarot",mes)
+alert.present()

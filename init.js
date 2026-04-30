@@ -25,6 +25,8 @@ async function loadNames(){
     }
     for (let name of list) {
         let a=eddaLib.prompt("Data Entry",name+":","")
+        if (a===null) continue
+        if (a=="null") {a=null}
         Keychain.set(name,a)
     }
 }

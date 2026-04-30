@@ -10,7 +10,7 @@ let masterDebug=false
 let testFlag="asexual"
 let mainDebug=false||masterDebug
 let widgetDebug=false||masterDebug
-let mode=(args.widgetParameter || "asexual").toLowerCase()
+let mode=(args.widgetParameter || (Keychain.get("baseFlag") || "asexual")).toLowerCase()
 var g={
   "asexual":[["black gray white purple",false]],
   "pride":[["red orange yellow green blue purple",false]],
