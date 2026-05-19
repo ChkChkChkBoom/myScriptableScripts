@@ -1,7 +1,8 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: light-brown; icon-glyph: magic;
-const VERSION="1.1.0"
+//needs everything prideFlagWidgets does
+const VERSION="1.1.1"
 const fm=FileManager.iCloud()
 const avenLib=importModule(fm.bookmarkedPath("avenLib"))
 const fbm=importModule(fm.bookmarkedPath("FBM"))
