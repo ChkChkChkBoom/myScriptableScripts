@@ -2,10 +2,11 @@
 // These must be at the very top of the file. Do not edit.
 // icon-color: yellow; icon-glyph: flag;
 //What this needs: flagBackgroundModule.js bookmarked as FBM (might put into another lib), avenLib.js bookmarked as avenLib, flagStorage.js bookmarked as flagStorage
-const VERSION="1.4.0"
+const VERSION="1.4.1"
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
 const avenLib=importModule(handler.bookmarkedPath("avenLib"))
+const flagStorage=importModule(handler.bookmarkedPath("flagStorage"))
 let masterDebug=false
 let testFlag="asexual"
 let mainDebug=false||masterDebug
