@@ -1,11 +1,12 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: deep-gray; icon-glyph: magic;
+// icon-color: deep-gray; icon-glyph: database;
 // stores flags
-const VERSION="1.0.0"
+const VERSION="1.0.1"
 const fm=FileManager.iCloud()
 const avenLib=importModule(fm.bookmarkedPath("avenLib"))
 var g={
+  "remove":(item)=>{self[item]=null},
   "asexual":[["black gray white purple",false]],
   "pride":[["red orange yellow green blue purple",false]],
   "aroace":[["orange yellow white lightBlue blue",false]],
@@ -35,11 +36,18 @@ avenLib.readFile(fm.joinPath(fm.documentsDirectory(),"flagNames.txt"),"\n").forE
   }else{
     let s=x.split("-")
     let name=s[0]
-    log("\t"+name)
     let aliases=s[1].split(",")
     for (let alias of aliases){
       g[alias]=g[name]
     }
   }
 })
+//iterative refinement
+for (let i of Object.keys(g)){
+  if (i[0]==="\\"){
+    let hold=g[i]
+    g[i.slice(2)]=hold
+    g.remove(i)
+  }
+}
 module.exports.flagDict=g
