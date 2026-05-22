@@ -1,8 +1,11 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: yellow; icon-glyph: flag;
-//What this needs: flagBackgroundModule.js bookmarked as FBM (might put into another lib), avenLib.js bookmarked as avenLib, flagStorage.js bookmarked as flagStorage
-const VERSION="1.4.1"
+//What this needs:
+//  flagBackgroundModule.js bookmarked as FBM
+//  avenLib.js bookmarked as avenLib
+//  flagStorage.js bookmarked as flagStorage
+const VERSION="1.4.2"
 const handler=FileManager.iCloud()
 const flagMaker=importModule(handler.bookmarkedPath("FBM"))
 const avenLib=importModule(handler.bookmarkedPath("avenLib"))
@@ -13,7 +16,7 @@ let mainDebug=false||masterDebug
 let widgetDebug=false||masterDebug
 let mode=(args.widgetParameter || (Keychain.get("baseFlag") || "asexual")).toLowerCase()
 var g=flagStorage.flagDict
-g["random"]=g[avenLib.shuffle(Object.keys(g))[0]]
+g["random"]=g[avenLib.shuffle(Object.keys(g).slice(1))[0]]
 function main(flag,subset=0){
   let sub
   if (mainDebug){
