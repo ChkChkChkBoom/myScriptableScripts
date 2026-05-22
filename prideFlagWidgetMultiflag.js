@@ -1,8 +1,8 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
-// icon-color: light-brown; icon-glyph: magic;
+// icon-color: yellow; icon-glyph: flag;
 //needs everything prideFlagWidgets does
-const VERSION="1.1.1"
+const VERSION="1.1.2"
 const fm=FileManager.iCloud()
 const avenLib=importModule(fm.bookmarkedPath("avenLib"))
 const fbm=importModule(fm.bookmarkedPath("FBM"))
@@ -10,7 +10,21 @@ const flagStorage=importModule(fm.bookmarkedPath("flagStorage"))
 const DEBUG=false
 const testData="ace,ace,ace"
 var g=flagStorage.flagDict
-log(g)
+if (DEBUG){
+  log("Flag Dictionary Contents:")
+  for (let i of Object.keys(g)){
+    if (i==="remove"){
+      continue
+    }
+    log("\t"+i+":")
+    for (let j=0;j<g[i].length;j++){
+      log("\t\tSubset "+(j+1)+":")
+      for (let k of g[i][j]){
+        log("\t\t\t"+k)
+      }
+    }
+  }
+}
 function main(flags,subsets=null){
   let hold=[]
   if (subsets===null){
