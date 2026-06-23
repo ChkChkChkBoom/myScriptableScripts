@@ -1,26 +1,27 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: deep-blue; icon-glyph: magic;
-//Requires: eddaLib.js bookmarked as eddaLib
+//Requires: eddaLib.js bookmarked as eddaLib, tarotData bookmarked as tarotData
 
-//===============================================================================//|
-//What we need:                                                                  //|
-//Display (easy)                                                                 //|
-//Affect display (hard)                                                          //|
-//===============================================================================//|
-//Inverted fool=-00                                                              //|
-//22 major (0-21)                                                                //|
-//14 minor/suit (2-A+knight[N]), 4 suits (wand cup sword pentacle [W/C/S/P])     //|
-//(2/3/4/5/6/7/8/9/0/J/N/Q/K)(W/C/S/P)(+/-)                                      //|
-//All cards upright or inverse (+/-)                                             //|
 //===============================================================================//|
 //Not an endorsement but I only know of one online option:                       //|
 //https://biddytarot.com/tarot-card-meanings/major-arcana/                       //|
 //===============================================================================//|
-const VERSION="1.2.0"
-const skillLib=importModule(n.bookmarkedPath("skillLib"))
+const VERSION="2.0.0"
 let n=FileManager.iCloud()
+const skillLib=importModule(n.bookmarkedPath("skillLib"))
+// my rage is immense at having to do this
+skillLib.install()
+// life is hard
+eval(skillLib.superBackup)
 const eddaLib=importModule(n.bookmarkedPath("eddaLib"))
+let html=true
+let tarotData
+try{
+  tarotData=importModule(n.bookmarkedPath("tarotData")).data
+}catch{
+  html=false
+}
 //.makeAlert
 //all the variables I remembered about
 let results=[]
@@ -50,10 +51,34 @@ const NAMES={
   "20":"Judgement",
   "21":"The World"
 }
+const INTERNALNAMES={
+  "00":"fool",
+  "01":"magician",
+  "02":"priestess",
+  "03":"emperess",
+  "04":"emperor",
+  "05":"heirophant",
+  "06":"lovers",
+  "07":"chariot",
+  "08":"justice",
+  "09":"hermit",
+  "10":"wheel",
+  "11":"strength",
+  "12":"hanged",
+  "13":"death",
+  "14":"temperance",
+  "15":"devil",
+  "16":"tower",
+  "17":"star",
+  "18":"moon",
+  "19":"sun",
+  "20":"judgement",
+  "21":"world"
+}
 //a little timesaver for later
 const INV_MAP={
   "+":"Upright",
-  "-":"Inverted"
+  "-":"Reversed"
 }
 //Functions:
 function pm(){
@@ -192,7 +217,8 @@ function toListList(x,y,l){
 }
 //make sure a number has enough zeroes
 function forceZeroes(n,l){
-  let out=String(n).toReverse()
+  let preOut=String(n)
+  let out=preOut.toReverse()
   let ll=l-String(n).length
   out=out.concat(dupe(ll,"0")).toReverse()
   return out
@@ -241,8 +267,26 @@ function read(item){
   log(`${NAMES[base]} (${INV_MAP[rest]})`)
   return `${NAMES[base]} (${INV_MAP[rest]})`
 }
-let mes=""
-mes="Cards you selected:"
-for (const i of results){mes=[mes,"\n",read(i[2][1])].join("");}
-let alert=eddaLib.makeAlert("iTarot",mes)
-alert.present()
+if (!html){
+  let mes=""
+  mes="Cards you selected:"
+  for (const i of results){mes=[mes,"\n",read(i[2][1])].join("");}
+  let alert=eddaLib.makeAlert("iTarot",mes)
+  alert.present()
+}else{
+  let siteHtml=""
+  siteHtml+="<b>What you flipped:</b><p>"
+  for (let item of results){
+    let i=item[2][1]
+    let internalName=INTERNALNAMES[i[0]+i[1]]
+    let info=tarotData[internalName]
+    let displayName=info.name+", "+INV_MAP[i[2]]
+    let displayImage=info.link
+    let displayInfo=info[(i[2]==="+")?"upright":"reversed"]
+    let template=`<b>${displayName}:</b><p>${displayInfo}<p><img src=${displayImage} alt=${displayName}><p>`
+    siteHtml+=template
+  }
+  let view=new WebView()
+  view.loadHTML(siteHtml)
+  view.present()
+}
