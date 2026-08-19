@@ -9,5 +9,7 @@ To use these scripts:
   <li>Run it and select "install all" or select a script you want and then "install"</li>
   <li>Check bookmarks.js for more info on setup</li>
 </ol>
+I AM PRETTY SURE EVERYTHING WORKS
+please contribute, its really helpful
 <h1>Plans for the future:</h1>
 ???Lib: Data storage library (will deal with when I get to it, needs a name)<p></p>
