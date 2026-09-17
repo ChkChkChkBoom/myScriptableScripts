@@ -7,6 +7,7 @@
 // Past/Present/Future (or any 3 card)
 // CLArity
 // CONnection
+// celtic CRoSs
 // Year AHead
 // CHANGE THESE AS NEEDED
 //Minor, Major, or Full<-(default)
@@ -20,14 +21,14 @@ const HookTarget='discord'
 //display symbolic info?
 const Moreinfo=true
 //which spread to use?
-const Spreadused="CON"
+const Spreadused="CRS"
 //only applies to unspecified spread
 const Cards=3
 //
 // ACTUAL CODE
 //
 const SELECTION=(["minor","major","full"].includes(Selection.toLowerCase()))?Selection.toLowerCase():"full"
-const VERSION="1.0.1"
+const VERSION="2.0.0"
 const WEBVIEW=Webview
 const MOREINFO=Moreinfo
 const SPREAD=Spreadused
@@ -46,7 +47,7 @@ switch (SPREAD){
   case "CON":
     cd=5
     break
-  case "CCR":
+  case "CRS":
     cd=11
     break
   case "YAH":
@@ -149,13 +150,14 @@ class Result{
   }
 }
 //'<img width="71" height="95" src=""'+tarotData[results[i-1].name]["link"]+'" style="transform: scaleY('+results[i-1].reversed?"-1":"1"+')">'
+//fuck css
 async function displayWeb(results){
   let style=".grid {display: grid;grid-template-columns: repeat(3, 95px);gap: 0px;} .card {width: 95px;height: 95px;}"
   let EVIL='<div class="card"></div>'
   let map=[EVIL]
   let incrementor=0
   for (let i of results){
-    map.push('<img crossorigin="anonymous" src="'+tarot.data[i.name]["link"]+'" style="transform: scaleY('+(i.reversed?"-1":"1")+') scaleX('+(i.reversed?"-1":"1")+')">')
+    map.push('<img height=95 crossorigin="anonymous" text-align: "center" src="'+tarot.data[i.name]["link"]+'" style="transform: scaleY('+(i.reversed?"-1":"1")+') scaleX('+(i.reversed?"-1":"1")+')">')
   }
   let spreadLocations=SPREADS[SPREAD]["positionMatrix"]
   let htmlString = "<table cellspacing='0' cellpadding='0'>"
@@ -164,15 +166,22 @@ async function displayWeb(results){
     for (let x = 0; x < 7; x++) {
       if (typeof spreadLocations[y][x]==="string"){
         let crossData=SPREADS[SPREAD]["crosses"][spreadLocations[y][x]]
-        let img=await buildCross(await Request.loadImage(tarot.data[results[crossData[0]-1].name].link),await Request.loadImage(tarot.data[results[crossData[1]-1].name].link))
+        let req1=new Request("")
+        req1.url=tarot.data[results[crossData[0]-1].name].link
+        let img1=await req1.loadImage()
+        let req2=new Request("")
+        req2.url=tarot.data[results[crossData[1]-1].name].link
+        let img2=await req2.loadImage()
+        let cross=await buildCross(img1,img2)
+        let b64=Data.fromPNG(cross).toBase64String()
         htmlString += `
-        <td style="width:95px;height:95px;">
-          <img crossorigin="anonymous" src="data:image/png;base64,${base64}">
+        <td style="text-align:center;width:95px;height:95px;">
+          <img crossorigin="anonymous" src="data:image/png;base64,${b64}">
         </td>
       `
       }else{
         htmlString += `
-          <td style="width:95px;height:95px;">
+          <td style="text-align:center;width:95px;height:95px;">
             ${map[spreadLocations[y][x]] || ""}
           </td>
         `
@@ -216,8 +225,8 @@ async function buildCross(a,b){
   let context=new DrawContext()
   let size=new Size(95,95)
   context.size=size
-  let Ra=new Rect(12,95,71,95)
-  let Rb=new Rect(0,83,95,71)
+  let Ra=new Rect(12,0,71,95)
+  let Rb=new Rect(0,12,95,71)
   context.drawImageInRect(a,Ra)
   let rb=await rotateImage(b,90)
   context.drawImageInRect(rb,Rb)
@@ -225,33 +234,46 @@ async function buildCross(a,b){
 }
 async function rotateImage(image, degrees) {
   let base64 = Data.fromPNG(image).toBase64String()
+
   let html = `
     <canvas id="canvas"></canvas>
     <script>
       const img = new Image();
       img.onload = () => {
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Calculate dimensions for right-angle rotations (90, 270)
-        const is90or270 = ( ${degrees} / 90 ) % 2 !== 0;
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const radians = ${degrees} * Math.PI / 180;
+        const is90or270 = Math.abs(${degrees}) % 180 === 90;
         canvas.width = is90or270 ? img.height : img.width;
         canvas.height = is90or270 ? img.width : img.height;
-        
-        // Transform and draw
         ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate(${degrees} * Math.PI / 180);
-        ctx.drawImage(img, -img.width / 2, -img.height / 2);
-        
-        // Send back to Scriptable
-        Scriptable.reply(canvas.toDataURL('image/png'));
+        ctx.rotate(radians);
+        ctx.drawImage(
+          img,
+          -img.width / 2,
+          -img.height / 2
+        );
+        document.body.dataset.result =
+          canvas.toDataURL("image/png");
       };
       img.src = "data:image/png;base64,${base64}";
     </script>
-  `;
+  `
   let wv = new WebView()
   await wv.loadHTML(html)
-  let resultDataUrl = await wv.evaluateJavaScript("", true) 
-  let cleanBase64 = resultDataUrl.replace(/^data:image\/png;base64,/, "")
-  return Image.fromData(Data.fromBase64String(cleanBase64))
+  let resultDataUrl = null
+  while (resultDataUrl === null) {
+    resultDataUrl = await wv.evaluateJavaScript(
+      "document.body.dataset.result || null",
+      false
+    )
+    if (resultDataUrl === null) {
+      await new Promise(resolve => setTimeout(resolve, 10))
+    }
+  }
+  let prefix = "data:image/png;base64,"
+  let cleanBase64 = resultDataUrl.slice(prefix.length)
+  return Image.fromData(
+    Data.fromBase64String(cleanBase64)
+  )
 }
