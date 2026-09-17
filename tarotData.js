@@ -1,7 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: teal; icon-glyph: database;
-const VERSION="2.0.0"
+const VERSION="3.0.0"
 let n=FileManager.iCloud()
 const LUCA=importModule(n.bookmarkedPath("lucaLib"))
 const dataMajor = {
@@ -689,6 +689,7 @@ for (let i of Object.keys(dM)){
 }
 const spreadData={
   "PPF":{
+    "name":"Past/Present/Future",
     "positionMatrix":[
       [0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0],
@@ -698,6 +699,7 @@ const spreadData={
       [0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0]
     ],
+    "crosses":{},
     "positionMeaning":{
       1:"Past",
       2:"Present",
@@ -705,6 +707,7 @@ const spreadData={
     }
   },
   "CLA":{
+    "name":"Clarity",
     "positionMatrix":[
       [0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0],
@@ -714,6 +717,7 @@ const spreadData={
       [0,0,0,0,0,0,0],
       [0,0,0,0,0,0,0]
     ],
+    "crosses":{},
     "positionMeaning":{
       1:"Main Situation",
       2:"Factor 1",
@@ -722,6 +726,7 @@ const spreadData={
     }
   },
   "CON":{
+    "name":"Connection",
     "positionMatrix":[
       [0,0,0,0,0,0,0],
       [0,0,0,5,0,0,0],
@@ -731,6 +736,7 @@ const spreadData={
       [0,0,1,0,3,0,0],
       [0,0,0,0,0,0,0]
     ],
+    "crosses":{},
     "positionMeaning":{
       1:"You",
       2:"Your Challenge",
@@ -741,6 +747,7 @@ const spreadData={
   },
   "YAH":{
     //the "fun" one
+    "name":"Year Ahead",
     "positionMatrix":[
       [0, 0, 0, 1, 0, 0, 0],
       [0, 0, 12,0, 2, 0, 0],
@@ -750,6 +757,7 @@ const spreadData={
       [0, 0, 8, 0, 6, 0, 0],
       [0, 0, 0, 7, 0, 0, 0]
     ],
+    "crosses":{},
     "positionMeaning":{
       1:"January",
       2:"February",
@@ -764,6 +772,34 @@ const spreadData={
       11:"November",
       12:"December",
       13:"Summary"
+    }
+  },
+  "CRS":{
+    "name":"Celtic Cross",
+    "positionMatrix":[
+      [0,0, 0, 0,0,0, 0],
+      [0,0, 0, 0,0,0,11],
+      [0,0, 5, 0,0,0,10],
+      [0,3,"A",4,0,0, 9],
+      [0,0, 6, 0,0,0, 8],
+      [0,0, 0, 0,0,0, 7],
+      [0,0, 0, 0,0,0, 0]
+    ],
+    "crosses":{
+      "A":[1,2]
+    },
+    "positionMeaning":{
+      1:"Overall State",
+      2:"Current Difficulty",
+      3:"Past",
+      4:"Future",
+      5:"Desired Result",
+      6:"Internal Factors",
+      7:"Advice",
+      8:"External Factors",
+      9:"Hopes",
+      10:"Fears",
+      11:"Current Path"
     }
   }
 }
