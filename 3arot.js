@@ -55,7 +55,6 @@ switch (SPREAD){
     unspecified=true
 }
 const CARDSDRAWN=cd
-const VERSION="1.0.0"
 let n=FileManager.iCloud()
 const skillLib=importModule(n.bookmarkedPath("skillLib"))
 // my rage is immense at having to do this
